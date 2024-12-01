@@ -22,7 +22,7 @@ export async function run(): Promise<void> {
     const prTitle: string = core.getInput('prTitle')
 
     core.debug('ticketPrefix: ' + ticketPrefix)
-    core.debug('prBody: ' + prTitle)
+    core.debug('prTitle: ' + prTitle)
 
     if (await ticketValidation(ticketPrefix, prTitle)) {
       core.setOutput('ticketValidationStatus', true)
