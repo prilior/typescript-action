@@ -25,8 +25,10 @@ export async function run(): Promise<void> {
     core.debug('prTitle: ' + prTitle)
 
     if (await ticketValidation(ticketPrefix, prTitle)) {
+      core.debug('Title starting with the prefix')
       core.setOutput('ticketValidationStatus', true)
     } else {
+      core.debug('Title not starting with the prefix')
       core.setOutput('ticketValidationStatus', false)
       throw new Error('Ticket Prefix Missing')
     }
