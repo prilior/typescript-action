@@ -1,24 +1,35 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+
+// import { wait } from './wait'
+// import { getPullRequestsAssociatedWithCommits } from './get-pr'
 
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
+
+async function ticketValidation(ticketPrefix: string, validationObj: string) {
+  if (validationObj.startsWith(ticketPrefix)) {
+    return true
+  } else {
+    return false
+  }
+}
+
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
+    const ticketPrefix: string = core.getInput('ticketPrefix')
+    const prTitle: string = core.getInput('prTitle')
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    core.debug('ticketPrefix: ' + ticketPrefix)
+    core.debug('prBody: ' + prTitle)
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    if (await ticketValidation(ticketPrefix, prTitle)) {
+      core.setOutput('ticketValidationStatus', true)
+    } else {
+      core.setOutput('ticketValidationStatus', false)
+      throw new Error('Ticket Prefix Missing')
+    }
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

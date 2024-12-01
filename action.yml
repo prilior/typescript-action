@@ -8,16 +8,25 @@ branding:
   color: 'red'
 
 # Define your inputs here.
+# inputs:
+#   milliseconds:
+#     description: 'Your input description here'
+#     required: true
+#     default: '1000'
+
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  ticketPrefix:
+    description: 'Jira Ticket Prefix'
     required: true
-    default: '1000'
+    default: 'ABC'
+  prTitle:
+    description: 'PR title'
+    required: true
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  ticketValidationStatus:
+    description: 'wheter ticket validation succeded'
 
 runs:
   using: node20
